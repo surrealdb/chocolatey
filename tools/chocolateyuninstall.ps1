@@ -1,10 +1,8 @@
-﻿$ErrorActionPreference = 'Stop'; # stop on all errors
+$ErrorActionPreference = 'Stop';
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
   softwareName  = 'surrealdb*'
   fileType      = 'exe'
-  silentArgs    = ""
-  validExitCodes= 0
 }
 
 $uninstalled = $false
@@ -15,6 +13,7 @@ if ($key.Count -eq 1) {
     $packageArgs['file'] = "$($_.UninstallString)"
 
     if ($packageArgs['fileType'] -eq 'MSI') {
+      $packageArgs['silentArgs'] = "$($_.PSChildName) $($packageArgs['silentArgs'])"
       $packageArgs['file'] = ''
     } else {
     }

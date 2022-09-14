@@ -1,1 +1,1 @@
-﻿Stop-Process -Name 'surreal' 2> $null
+Stop-Process -Name surreal 2> $null

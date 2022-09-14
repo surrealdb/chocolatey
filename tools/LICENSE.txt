@@ -1,9 +1,7 @@
 ﻿
-
 From: https://raw.githubusercontent.com/surrealdb/surrealdb/main/LICENSE
 
 LICENSE
-
 Business Source License 1.1
 
 Parameters
