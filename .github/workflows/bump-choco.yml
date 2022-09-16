@@ -39,7 +39,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install AU
-        run: cinst au
+        run: /
+          choco install au
+          choco install checksum
       - name: Build Package
         # download executable and patch version and checksums
         working-directory: .
