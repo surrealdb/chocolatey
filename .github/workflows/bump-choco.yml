@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "SerVer version e.g. 1.0.0-beta.7; otherwise version from https://version.surrealdb.com"
+        description: "SerVer version (1.0.0-beta.7); otherwise latest"
         required: false
       force:
         description: "force push package"
