@@ -9,7 +9,7 @@ The checksum can be validated by executing said command on the binary downloaded
 
 This package is published in cooperation with the PO Tobie and will be maintaned officially once we have the CD pipeline adjusted for choco.
 
-At this point we dont really have a *proper* installer, ist just a cli tool that can run the db and act as a command line.
+At this point we don't really have a expansive installation, just a cli tool that can run the db and act as a command line.
 I highly suggest you check us out and leave a star at https://github.com/surrealdb/surrealdb
 
 If you have any questions feel free to reach out to me ProphetLamb <prophet.lamb@gmail.com>.
