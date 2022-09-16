@@ -15,7 +15,7 @@ jobs:
   get-version:
     # determine the version we which to push to choco
     name: Get Version
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -32,7 +32,7 @@ jobs:
     # patch the repo and update the choco package
     needs: get-version
     name: Bump SurrealDB Chocolately
-    runs-on: windows-2019
+    runs-on: windows-latest
     defaults:
       run:
         shell: powershell
