@@ -13,9 +13,11 @@ $version= $env:SURREALDB_VERSION
 $baseurl='https://download.surrealdb.com'
 $arch="windows-amd64"
 $bin="$toolsdir/surreal.exe"
+$url="$baseurl/$version/surreal-$version.$arch.exe"
 
+echo "Downloading $url"
 # https://download.surrealdb.com/v1.0.0-beta.7/surreal-v1.0.0-beta.7.windows-amd64.exe
-Invoke-WebRequest "$baseurl/$version/surreal-$version.$arch.exe" -UseBasicParsing -OutFile $bin
+Invoke-WebRequest $url -UseBasicParsing -OutFile $bin
 
 $checksum=checksum -t sha256 -f $bin
 
@@ -26,6 +28,7 @@ $checksum=checksum -t sha256 -f $bin
 # replaces the value of the following with $checksum
 #   checksum      =
 #   checksum64    = 'wegwerghwrgh'
+echo "Patching checksums in $toolsDir/*.ps1 to $checksum"
 $expr='^(\s*checksum\d*\s*=\s*).*'
 $replace='$1'+"'$checksum'"
 
@@ -50,6 +53,7 @@ $version = $version -replace '^v(\d+\.\d+\.\d+)-beta\.(\d+)$', '$1-beta$2'
 # replaces the following
 #    <version>1.0.0</version>
 #    <version>1.0.0-beta5</version>
+echo "Patching version in surrealdb.nuspec to $version"
 $expr='<version>\d+\.\d+\.\d+(?:-\w+\d*)?</version>'
 $replace="<version>$version</version>"
 
@@ -59,3 +63,4 @@ for($i = 0; $i -lt $content.Count; $i++) {
   $content[$i] = $content[$i] -replace $expr, $replace
 }
 Set-Content $file $content
+echo "Done"
