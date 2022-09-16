@@ -22,7 +22,6 @@ jobs:
     outputs:
       remote_version: ${{ steps.get_version.outputs.remote_version }}
       current_version: ${{ steps.get_version.outputs.current_version }}
-      version_mismatch: ${{ steps.get_version.outputs.version_mismatch }}
     steps:
       - uses: actions/checkout@v3
       - name: Get version
@@ -36,16 +35,13 @@ jobs:
           current_version=$(cat current.version | xargs)
           echo "::set-output name=remote_version::$remote_version"
           echo "::set-output name=current_version::$remote_version"
-          if [[ "$current_version" != "$remote_version" ]]; then
-            echo "version $current_version <-> $remote_version"
-            echo "::set-output name=version_mismatch::$version_mismatch"
-          fi
+          echo "version $current_version <-> $remote_version"
 
   chocolatey-bump:
     # patch the repo and update the choco package, if forced or version mismatch
     needs: get-version
     name: Bump SurrealDB Chocolatey
-    if: ${{ needs.get-version.outputs.version_mismatch != '' }}
+    if: ${{github.event.inputs.force != 'true' || needs.get-version.outputs.version_mismatch != '' }}
     runs-on: windows-latest
     defaults:
       run:
@@ -60,7 +56,7 @@ jobs:
         # download executable and patch version and checksums
         working-directory: .
         run: |
-          echo "Should run? ${{ needs.get-version.outputs.version_mismatch != '' }}"
+          echo "Should run? ${{github.event.inputs.force != 'true' || steps.get_version.outputs.current_version != steps.get_version.outputs.remote_version }}"
           ./patch.ps1
         env:
           au_Push: "false"
