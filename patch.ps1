@@ -3,15 +3,14 @@
 # Downloads the current surreal binary and patches the choco package information.
 
 $toolsdir = './tools'
+$version= $env:SURREALDB_VERSION
 
 ##
 # download the current binary
 ##
 
-
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls13
 $baseurl='https://download.surrealdb.com'
-$version= $env:SURREALDB_VERSION ?? (Invoke-WebRequest 'https://version.surrealdb.com' -UseBasicParsing).Content.trim()
 $arch="windows-amd64"
 $bin="$toolsdir/surreal.exe"
 
