@@ -15,7 +15,7 @@ $arch="windows-amd64"
 $bin="$toolsdir/surreal.exe"
 $url="$baseurl/$version/surreal-$version.$arch.exe"
 
-echo "Downloading $url"
+echo "Downloading $url to $bin"
 # https://download.surrealdb.com/v1.0.0-beta.7/surreal-v1.0.0-beta.7.windows-amd64.exe
 Invoke-WebRequest $url -UseBasicParsing -OutFile $bin
 
@@ -53,11 +53,11 @@ $version = $version -replace '^v(\d+\.\d+\.\d+)-beta\.(\d+)$', '$1-beta$2'
 # replaces the following
 #    <version>1.0.0</version>
 #    <version>1.0.0-beta5</version>
-echo "Patching version in surrealdb.nuspec to $version"
+echo "Patching version in surreal.nuspec to $version"
 $expr='<version>\d+\.\d+\.\d+(?:-\w+\d*)?</version>'
 $replace="<version>$version</version>"
 
-$file='surrealdb.nuspec'
+$file='surreal.nuspec'
 [array]$content = Get-Content $file
 for($i = 0; $i -lt $content.Count; $i++) {
   $content[$i] = $content[$i] -replace $expr, $replace
