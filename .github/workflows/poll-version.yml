@@ -1,0 +1,28 @@
+name: Poll current version of SurrealDB and bump if needed
+on:
+  schedule:
+    # every Friday at 18:00 UTC
+    - cron: "0 18 * * FRI"
+  workflow_dispatch:
+
+jobs:
+  validate-version:
+    name: Validate the current version against the remote
+    runs-on: ubuntu-latest
+    env:
+      SURREALDB_VERSION: ${{ needs.get-version.outputs.version }}
+    outputs:
+      changed: ${{ steps.validate-version.changed }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          remote_version=$(curl https://version.surrealdb.com)
+          current_version=$(cat current.version)
+          if [[ "$remote_version" != "$current_version" ]]
+            echo "::set-output name=changed::true"
+          fi
+  bump-version:
+    needs: validate-version
+    name: Triggers the version bump workflow, if needed
+    if: ${{needs.validate-version.changed == 'true'}}
+    runs-on: ubuntu-latest

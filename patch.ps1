@@ -40,6 +40,11 @@ foreach($file in gci "$toolsDir/*.ps1") {
   Set-Content $file $content
 }
 
+##
+# update current.version
+##
+
+echo $version > current.version
 
 ##
 # update version for surrealdb.nuspec
