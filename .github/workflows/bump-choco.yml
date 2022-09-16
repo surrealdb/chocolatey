@@ -22,6 +22,7 @@ jobs:
     outputs:
       remote_version: ${{ steps.get_version.outputs.remote_version }}
       current_version: ${{ steps.get_version.outputs.current_version }}
+      version_mismatch: ${{ steps.get_version.outputs.version_mismatch }}
     steps:
       - uses: actions/checkout@v3
       - name: Get version
@@ -33,14 +34,18 @@ jobs:
             remote_version=$(curl https://version.surrealdb.com)
           fi
           current_version=$(cat current.version | xargs)
-          echo "version $current_version <-> $remote_version"
           echo "::set-output name=remote_version::$remote_version"
           echo "::set-output name=current_version::$remote_version"
+          if [["$current_version" != "$remote_version"]]; then
+            echo "version $current_version <-> $remote_version"
+            echo "::set-output name=version_mismatch::$version_mismatch"
+          fi
+
   chocolatey-bump:
     # patch the repo and update the choco package, if forced or version mismatch
     needs: get-version
     name: Bump SurrealDB Chocolatey
-    if: ${{github.event.inputs.force != '' || needs.get-version.outputs.remote_version != needs.get-version.outputs.current_version }}
+    if: ${{github.event.inputs.force != '' || needs.get-version.outputs.version_mismatch != '' }}
     runs-on: windows-latest
     defaults:
       run:
