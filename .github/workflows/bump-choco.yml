@@ -69,7 +69,7 @@ jobs:
       - uses: EndBug/add-and-commit@v7
         # Checkin the changes to the repo
         with:
-          message: "[ga-bump-dolt-chocolatey] Bumping SurrealDB on Chocolatey ${{ needs.get-version.outputs.version }}"
+          message: "[ga-bump-dolt-chocolatey] Bumping SurrealDB on Chocolatey ${{ needs.get-version.outputs.remote_version }}"
           add: "."
           cwd: "."
       - name: Push Package to Chocolatey
