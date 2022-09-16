@@ -28,7 +28,7 @@ jobs:
         id: get_version
         run: |
           remote_version="${{ github.event.inputs.version }}"
-          if [[ -z "$version" ]]; then
+          if [[ -z "$remote_version" ]]; then
             # grab latest version, if not specified
             remote_version=$(curl https://version.surrealdb.com)
           fi
@@ -56,7 +56,6 @@ jobs:
         # download executable and patch version and checksums
         working-directory: .
         run: |
-          echo "Should run? ${{ github.event.inputs.force == 'true' || steps.get_version.outputs.current_version != steps.get_version.outputs.remote_version }}"
           ./patch.ps1
         env:
           au_Push: "false"
