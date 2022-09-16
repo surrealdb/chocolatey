@@ -55,9 +55,9 @@ jobs:
         # Test whether we really have a working surrealdb executable
         working-directory: .
         run: Test-Package $Install
-      - name: SurrealDB Test
+      - name: SurrealDB Version Test
         run: |
-          tools/surreal.exe
+          tools/surreal.exe version
       - uses: EndBug/add-and-commit@v7
         # Checkin the changes to the repo
         with:
