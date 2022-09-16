@@ -23,6 +23,7 @@ jobs:
       remote_version: ${{ steps.get_version.outputs.remote_version }}
       current_version: ${{ steps.get_version.outputs.current_version }}
     steps:
+      - uses: actions/checkout@v3
       - name: Get version
         id: get_version
         run: |
@@ -44,7 +45,7 @@ jobs:
       run:
         shell: powershell
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install AU
         run: |
           choco install au
