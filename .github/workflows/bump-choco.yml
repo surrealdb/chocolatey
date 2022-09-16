@@ -41,7 +41,7 @@ jobs:
     # patch the repo and update the choco package, if forced or version mismatch
     needs: get-version
     name: Bump SurrealDB Chocolatey
-    if: ${{ github.event.inputs.force == 'true' || steps.get_version.outputs.remote_version != steps.get_version.outputs.current_version }}
+    if: ${{ github.event.inputs.force == 'true' || needs.get_version.outputs.remote_version != needs.get_version.outputs.current_version }}
     runs-on: windows-latest
     defaults:
       run:
