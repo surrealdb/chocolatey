@@ -1,0 +1,71 @@
+name: Bump SurrealDB on Chocolatey
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "SerVer version e.g. 1.0.0-beta.7; otherwise version from https://version.surrealdb.com"
+        required: false
+      force:
+        description: "force push package"
+        required: false
+        default: "false"
+
+jobs:
+  get-version:
+    # determine the version we which to push to choco
+    name: Get Version
+    runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Get version
+        id: get_version
+        run: |
+          version="${{ github.event.inputs.version }}"
+          if [[ -z "$version" ]]; then
+            # grab latest version, if not specified
+            version=$(curl https://version.surrealdb.com)
+          fi
+          echo "::set-output name=version::$version"
+  chocolatey-bump:
+    # patch the repo and update the choco package
+    needs: get-version
+    name: Bump SurrealDB Chocolately
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install AU
+        run: cinst au
+      - name: Build Package
+        # download executable and patch version and checksums
+        working-directory: .
+        run: |
+          ./patch.ps1
+        env:
+          au_Push: "false"
+          au_Force: ${{ github.event.inputs.force }}
+          SURREALDB_VERSION: ${{ needs.get-version.outputs.version }}
+      - name: Test Package
+        # Test whether we really have a working surrealdb executable
+        working-directory: .
+        run: Test-Package $Install
+      - name: SurrealDB Version
+        run: |
+          tools/surreal.exe version
+      - uses: EndBug/add-and-commit@v7
+        # Checkin the changes to the repo
+        with:
+          message: "[ga-bump-dolt-chocolatey] Bumping SurrealDB on Chocolatey ${{ needs.get-version.outputs.version }}"
+          add: "."
+          cwd: "."
+      - name: Push Package to Chocolatey
+        # Push the chocolaty package
+        run: Push-Package
+        working-directory: .
+        env:
+          api_key: ${{ secrets.CHOCO_API_KEY }}
+          au_Force: ${{ github.event.inputs.force }}
