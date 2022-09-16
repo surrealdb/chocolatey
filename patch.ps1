@@ -8,10 +8,10 @@ $toolsdir = './tools'
 # download the current binary
 ##
 
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls13
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls13
 $baseurl='https://download.surrealdb.com'
-$version=(Invoke-WebRequest 'https://version.surrealdb.com' -UseBasicParsing).Content.trim()
+$version= $env:SURREALDB_VERSION ?? (Invoke-WebRequest 'https://version.surrealdb.com' -UseBasicParsing).Content.trim()
 $arch="windows-amd64"
 $bin="$toolsdir/surreal.exe"
 
