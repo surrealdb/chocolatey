@@ -27,3 +27,5 @@ The command `surreal` is now available on any windows shell as a choco-shim.
 The package is automatically updated in the Chocolatey registry every week on Friday 18:00 UTC.
 
 For more info on how this is done, see the workflow [bump-choco.yml](.github/workflows/bump-choco.yml)
+
+For a more detailed explaination on how to push to chocolaty via a gh workflow this article is a good read https://www.dolthub.com/blog/2021-10-13-how-to-publish-winget-chocolatey-packages-with-github-actions/
