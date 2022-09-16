@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install AU
-        run: /
+        run: |
           choco install au
           choco install checksum
       - name: Build Package
