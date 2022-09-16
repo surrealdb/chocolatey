@@ -13,9 +13,9 @@
 
 # Quick Start
 
-The package is available via on [Chocolatey](https://chocolatey.org/install) as https://community.chocolatey.org/packages/surreal/ .
+The package is available via [Chocolatey](https://chocolatey.org/install) as https://community.chocolatey.org/packages/surreal/ .
 
-It can be installed using an administrative `choco` cli:
+It can be installed using an administrative shell:
 ```bash
 choco install surreal --pre
 ```
