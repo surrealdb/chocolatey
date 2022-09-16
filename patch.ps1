@@ -9,7 +9,7 @@ $version= $env:SURREALDB_VERSION
 # download the current binary
 ##
 
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls13
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $baseurl='https://download.surrealdb.com'
 $arch="windows-amd64"
 $bin="$toolsdir/surreal.exe"
