@@ -53,7 +53,7 @@ echo $version > current.version
 # patch beta version string to conform with
 # https://docs.microsoft.com/en-us/nuget/concepts/package-versioning#creating-prerelease-packages
 # rplacesing v1.0.0-beta.7 with 1.0.0-beta7
-$version = $version -replace '^v(\d+\.\d+\.\d+)-beta[\.\+](\d+)$', '$1-beta$2'
+$version = $version -replace '^v(\d+\.\d+\.\d+)-beta\.(\d+)', '$1-beta$2'
 
 # replaces the following
 #    <version>1.0.0</version>
