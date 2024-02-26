@@ -4,23 +4,21 @@
   <metadata>
     <id>surreal</id>
     <version>1.0.0-beta9</version>
-    <packageSourceUrl>https://github.com/ProphetLamb/surrealdb-choco</packageSourceUrl>
-    <owners>ProhetLamb</owners>
-    <title>surrealdb (Install)</title>
+    <packageSourceUrl>https://github.com/surrealdb/chocolatey</packageSourceUrl>
+    <owners>surrealdb</owners>
+    <title>SurrealDB</title>
     <authors>SurrealDB Ltd.,Tobie Morgan Hitchcock</authors>
-    <projectUrl>https://surrealdb.com/</projectUrl>
+    <projectUrl>https://surrealdb.com</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/surrealdb/surrealdb/main/img/whatissurreal.svg</iconUrl>
-    <copyright>2022 SurrealDB Ltd.</copyright>
+    <copyright>2024 © SurrealDB Ltd.</copyright>
     <licenseUrl>https://raw.githubusercontent.com/surrealdb/surrealdb/main/LICENSE</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <projectSourceUrl>https://github.com/surrealdb/surrealdb</projectSourceUrl>
     <docsUrl>https://surrealdb.com/docs</docsUrl>
-    <!--<mailingListUrl></mailingListUrl>-->
     <bugTrackerUrl>https://github.com/surrealdb/surrealdb/issues/new/choose</bugTrackerUrl>
     <tags>surrealdb database rdbms sql nosql surrealql cli admin graph community</tags>
     <summary>A scalable, distributed, collaborative, document-graph database, for the realtime web</summary>
     <description>SurrealDB is a powerful multi-model database, built for the cloud, and designed to improve the development process of traditional and modern applications. SurrealDB’s premise is that developers should be able to build secure, modern, collaborative applications without needing to build complicated backend APIs and database layers, and without being forced into using a single data model or cloud platform.</description>
-    <!-- <releaseNotes>__REPLACE_OR_REMOVE__MarkDown_Okay</releaseNotes> -->
   </metadata>
   <files>
     <file src="tools/**" target="tools" />
