@@ -1,31 +1,17 @@
-<!-- PROJECT LOGO -->
-  <br />
-    <p align="center">
-    <img src="img/icon.png" alt="Logo" width="130" height="130">
-  </a>
-  <h1 align="center">SurrealDB-choco (unofficial)</h1>
-  <p align="center">
-    An (unofficial) Chocolatey distribution of SurrealDB.
-  </p>
-  <p align="center">
-    NOTE: SurrealDB is not my idea, I'm just a guy trying to use it in my own projects. You can find everything about the project at SurrealDB's website (https://surrealdb.com).
-  </p>
+# The SurrealDB Chocolatey Package
 
-# Quick Start
+SurrealDB is designed to be simple to install and simple to run - using just one command from your terminal. In addition to traditional installation, SurrealDB can be installed and run with HomeBrew, Docker, or using any other container orchestration tool such as Docker Compose, Docker Swarm, Rancher, or in Kubernetes. Visit the [SurrealDB install page](https://surrealdb.com/install) for more information.
 
-The package is available via [Chocolatey](https://chocolatey.org/install) as https://community.chocolatey.org/packages/surreal/ .
+This repository houses the package builder and deployment scripts for publishing the latest SurrealDB release to [community.chocolatey.org](https://community.chocolatey.org/packages/surreal). It checks for new releases on a daily basis, and automatically updates the package listing on Chocolatey for Windows machines.
 
-It can be installed using an administrative shell:
+To install SurrealDB using Chocolatey, using the following command on a Windows machine.
+
 ```bash
-choco install surreal --pre
+choco install surreal
 ```
 
-The command `surreal` is now available on any windows shell as a choco-shim.
+The `surreal` command will then be avaialble on any Windows shell as a Chocolatey shim.
 
-# Autoupdating
+### Original
 
-The package is automatically updated in the Chocolatey registry every week on Friday 18:00 UTC.
-
-For more info on how this is done, see the workflow [bump-choco.yml](.github/workflows/bump-choco.yml)
-
-For a more detailed explaination on how to push to chocolaty via a gh workflow this article is a good read https://www.dolthub.com/blog/2021-10-13-how-to-publish-winget-chocolatey-packages-with-github-actions/
+This code was created originally by [ProphetLamb](https://github.com/ProphetLamb), and is now an officially maintained package, managed by SurrealDB. The code is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license.
