@@ -1,17 +1,18 @@
 ﻿
 VERIFICATION
-Verification is intended to assist the Chocolatey moderators and community
-in verifying that this package's contents are trustworthy.
+Verification is intended to assist the Chocolatey moderators and community in verifying that this package's contents are trustworthy.
 
 The checksum of the package is computed using `checksum -t sha256 -f $bin`.
+
 The checksum can be validated by executing said command on the binary downloaded and installed by the official installer form the [project website](https://surrealdb.com/install):
 `iwr https://windows.surrealdb.com -useb | iex`
 
-This package is published in cooperation with the PO Tobie and will be maintaned officially once we have the CD pipeline adjusted for choco.
+This package is published by SurrealDB and is maintaned officially, with automatic updates powered by GitHub Actions continuous delivery.
 
-At this point we don't really have a expansive installation, just a cli tool that can run the db and act as a command line.
-I highly suggest you check us out and leave a star at https://github.com/surrealdb/surrealdb
+Installation is quick and simple, with a CLI tool that can run the database, and which also acts as an SQL command line, and import and export tool.
 
-If you have any questions feel free to reach out to me ProphetLamb <prophet.lamb@gmail.com>.
+If you like what we are building, it would be awesome if you check us out and leave a star at [GitHub](https://github.com/surrealdb/surrealdb).
 
-Cheers!
+If you have any questions feel free to reach out to me Tobie <tobie@surrealdb.com>.
+
+Thank you!
