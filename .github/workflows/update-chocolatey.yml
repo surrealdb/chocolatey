@@ -1,0 +1,71 @@
+name: Update Chocolatey
+
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force push package?"
+        required: false
+        default: "false"
+
+jobs:
+  get-version:
+    name: Get Version
+    runs-on: ubuntu-latest
+    outputs:
+      latest_version: ${{ steps.get_version.outputs.latest_version }}
+      current_version: ${{ steps.get_version.outputs.current_version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get version
+        id: get_version
+        run: |
+          latest_version=$(curl https://version.surrealdb.com)
+          current_version=$(cat current.version)
+          echo "Latest version: $latest_version"
+          echo "Current version: $current_version"
+          echo "version $current_version <-> $latest_version"
+          echo "latest_version=$latest_version" >> $GITHUB_OUTPUT
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+
+  chocolatey-push:
+    needs: get-version
+    name: Update Chocolatey
+    if: ${{ github.event.inputs.force == 'true' || needs.get-version.outputs.latest_version != needs.get-version.outputs.current_version }}
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tooling
+        run: |
+          choco install au checksum -y
+      - name: Build package
+        working-directory: .
+        run: |
+          ./patch.ps1
+        env:
+          au_Push: "false"
+          au_Force: ${{ github.event.inputs.force }}
+          SURREALDB_VERSION: ${{ needs.get-version.outputs.latest_version }}
+      - name: Install package
+        working-directory: .
+        run: Test-Package $Install
+      - name: Check SurrealDB version
+        run: |
+          tools/surreal.exe version
+      - name: Commit repository changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "[GitHub Actions] Updating SurrealDB on Chocolatey ${{ needs.get-version.outputs.latest_version }}"
+          add: "."
+          cwd: "."
+      - name: Push package to Chocolatey
+        run: Push-Package
+        working-directory: .
+        env:
+          api_key: ${{ secrets.CHOCOLATEY_API_KEY }}
+          au_Force: ${{ github.event.inputs.force }}
