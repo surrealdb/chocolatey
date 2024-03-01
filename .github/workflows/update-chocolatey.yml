@@ -11,29 +11,36 @@ on:
         default: "false"
 
 jobs:
-  get-version:
+  check:
     name: Get Version
     runs-on: ubuntu-latest
     outputs:
-      latest_version: ${{ steps.get_version.outputs.latest_version }}
-      current_version: ${{ steps.get_version.outputs.current_version }}
+      update_needed: ${{ steps.check.outputs.update_needed }}
+      latest_version: ${{ steps.check.outputs.latest_version }}
+      current_version: ${{ steps.check.outputs.current_version }}
     steps:
       - uses: actions/checkout@v4
       - name: Get version
-        id: get_version
+        id: check
         run: |
           latest_version=$(curl https://version.surrealdb.com)
           current_version=$(cat current.version)
+          if [[ "$latest_version" = "$current_version" ]]; then
+            update_needed='false'
+          else
+            update_needed='true'
+          fi
           echo "Latest version: $latest_version"
           echo "Current version: $current_version"
-          echo "version $current_version <-> $latest_version"
+          echo "Update needed: $update_needed"
+          echo "update_needed=$update_needed" >> $GITHUB_OUTPUT
           echo "latest_version=$latest_version" >> $GITHUB_OUTPUT
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
 
-  chocolatey-push:
-    needs: get-version
+  update:
+    needs: check
     name: Update Chocolatey
-    if: ${{ github.event.inputs.force == 'true' || needs.get-version.outputs.latest_version != needs.get-version.outputs.current_version }}
+    if: ${{ github.event.inputs.force == 'true' || needs.check.outputs.update_needed == 'true' }}
     runs-on: windows-latest
     defaults:
       run:
@@ -50,7 +57,7 @@ jobs:
         env:
           au_Push: "false"
           au_Force: ${{ github.event.inputs.force }}
-          SURREALDB_VERSION: ${{ needs.get-version.outputs.latest_version }}
+          SURREALDB_VERSION: ${{ needs.check.outputs.latest_version }}
       - name: Install package
         working-directory: .
         run: Test-Package $Install
@@ -60,7 +67,7 @@ jobs:
       - name: Commit repository changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: "[GitHub Actions] Updating SurrealDB on Chocolatey ${{ needs.get-version.outputs.latest_version }}"
+          message: "[GitHub Actions] Updating SurrealDB on Chocolatey ${{ needs.check.outputs.latest_version }}"
           add: "."
           cwd: "."
       - name: Push package to Chocolatey

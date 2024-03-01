@@ -28,7 +28,7 @@ $checksum = checksum -t sha256 -f $bin
 
 echo "Updating version in current.version to $version"
 
-Write-Output $version | out-file -encoding utf8 "current.version"
+Write-Output $version | out-file -encoding ASCII "current.version"
 
 ## --------------------------------------------------
 ## Patch the checksum in the powershell scripts
