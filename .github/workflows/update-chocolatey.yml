@@ -64,15 +64,15 @@ jobs:
       - name: Check SurrealDB version
         run: |
           tools/surreal.exe version
-      - name: Commit repository changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "[GitHub Actions] Updating SurrealDB on Chocolatey ${{ needs.check.outputs.latest_version }}"
-          add: "."
-          cwd: "."
       - name: Push package to Chocolatey
         run: Push-Package
         working-directory: .
         env:
           api_key: ${{ secrets.CHOCOLATEY_API_KEY }}
           au_Force: ${{ github.event.inputs.force }}
+      - name: Commit repository changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "[GitHub Actions] Updating SurrealDB on Chocolatey ${{ needs.check.outputs.latest_version }}"
+          add: "."
+          cwd: "."
